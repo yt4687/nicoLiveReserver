@@ -101,32 +101,32 @@ class nicoLive:
         headers = {
             'Content-Type': 'application/json',
             'X-niconico-session' : user_session,
-            'Accept' : 'application/json'            
-         }
+            'Accept' : 'application/json'
+        }
 
         payload = {
             "title":self.Livetitle,
             "description":self.Livedescription,
             "category":self.Livecategory,
-            #"optionalCategories": self.LiveoptionalCategories, # 実況チャンネルでは使わないのでいったん封印
-            #"tags":[self.Livetags], # 20210131現在バグってるのか使えず 使うと400になる
-            #"isTagOwnerLock": self.LiveisTagOwnerLock, # 20210131現在バグってるのか使えず 使うと400になる
-            "isMemberOnly": self.LiveisMemberOnly,
+            #"tags":[self.Livetags], # 修正中
+            "isTagOwnerLock": bool(self.LiveisTagOwnerLock),
+            "isMemberOnly": bool(self.LiveisMemberOnly),
             "communityId": jikkyo_comm,
             "reservationBeginTime": self.date_time.strftime('%Y-%m-%d')+"T"+self.date_time.strftime('%H:%M:00')+"+09:00",
             "durationMinutes": self.hours,
-            "isTimeshiftEnabled": self.LiveisTimeshiftEnabled,
-            "isUadEnabled": self.LiveisUadEnabled,
-            "isIchibaEnabled": self.LiveisIchibaEnabled,
+            "isTimeshiftEnabled": bool(self.LiveisTimeshiftEnabled),
+            "isUadEnabled": bool(self.LiveisUadEnabled),
+            "isIchibaEnabled": bool(self.LiveisIchibaEnabled),
             "maxQuality": self.LivemaxQuality,
-            "isQuotable": self.LiveisQuotable,
-            #"isAutoCommentFilterEnabled": self.LiveisAutoCommentFilterEnabled, # 20210131現在バグってるのか使えず 使うと400になる
+            "isQuotable": bool(self.LiveisQuotable),
+            "isAutoCommentFilterEnabled": bool(self.LiveisAutoCommentFilterEnabled),
         }
 
-        print(payload)
+        #print(payload)
 
         response = requests.post(url, json.dumps(payload), headers = headers)
-        print(response)
+        #print(response)
+        
 
         return response.json()
         
