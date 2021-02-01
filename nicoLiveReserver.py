@@ -73,7 +73,6 @@ def main():
         
         try:
             result = jkcomment.setbroadcast('create')
-            print(result)
         except (nicoLive.ResponseError, nicoLive.SessionError) as ex:
             print(f"エラー: {ex.args[0]}")
             print('=' * shutil.get_terminal_size().columns)

@@ -56,6 +56,7 @@ class nicoLive:
         config_ini = os.path.dirname(os.path.abspath(sys.argv[0])) + '/nicoLiveReserver.ini'
         config = configparser.ConfigParser()
         config.read(config_ini, encoding='UTF-8')
+        print('config_ini['+config_ini)
 
         # 生放送用の設定ファイルを読み込み
         Livedata = configparser.ConfigParser()
@@ -80,6 +81,47 @@ class nicoLive:
         self.LivemaxQuality = Livedata.get('nicoLive', 'maxQuality')
         self.LiveisQuotable = Livedata.get('nicoLive', 'isQuotable')
         self.LiveisAutoCommentFilterEnabled = Livedata.get('nicoLive', 'isAutoCommentFilterEnabled')
+
+        # テキストになってるTrue Falseをboolへ変換（もっとスマートに書きたい）
+        if self.LiveisTagOwnerLock == str('true'):
+            self.LiveisTagOwnerLock = True
+        else:
+            self.LiveisTagOwnerLock = False
+
+        if self.LiveisMemberOnly == str('true'):
+            self.LiveisMemberOnly = True
+        else:
+            self.LiveisMemberOnly = False
+        
+        if self.LiveisTimeshiftEnabled == str('true'):
+            self.LiveisTimeshiftEnabled = True
+        else:
+            self.LiveisTimeshiftEnabled = False
+        
+        if self.LiveisUadEnabled == str('true'):
+            self.LiveisUadEnabled = True
+        else:
+            self.LiveisUadEnabled = False
+        
+        if self.LiveisIchibaEnabled == str('true'):
+            self.LiveisIchibaEnabled = True
+        else:
+            self.LiveisIchibaEnabled = False
+        
+        if self.LiveisOfficialIchibaOnly == str('true'):
+            self.LiveisOfficialIchibaOnly = True
+        else:
+            self.LiveisOfficialIchibaOnly = False
+        
+        if self.LiveisQuotable == str('true'):
+            self.LiveisQuotable = True
+        else:
+            self.LiveisQuotable = False
+
+        if self.LiveisAutoCommentFilterEnabled == str('true'):
+            self.LiveisAutoCommentFilterEnabled = True
+        else:
+            self.LiveisAutoCommentFilterEnabled = False
         
         # コミュニティIDを手動でセットしたいとき用
         self.LivecommunityId = Livedata.get('nicoLive', 'communityId')
@@ -117,23 +159,22 @@ class nicoLive:
             "description":self.Livedescription,
             "category":self.Livecategory,
             "tags": Livetags,
-            "isTagOwnerLock": bool(self.LiveisTagOwnerLock),
-            "isMemberOnly": bool(self.LiveisMemberOnly),
+            "isTagOwnerLock": self.LiveisTagOwnerLock,
+            "isMemberOnly": self.LiveisMemberOnly,
             "communityId": jikkyo_comm,
             "reservationBeginTime": self.date_time.strftime('%Y-%m-%d')+"T"+self.date_time.strftime('%H:%M:00')+"+09:00",
             "durationMinutes": self.hours,
-            "isTimeshiftEnabled": bool(self.LiveisTimeshiftEnabled),
-            "isUadEnabled": bool(self.LiveisUadEnabled),
-            "isIchibaEnabled": bool(self.LiveisIchibaEnabled),
+            "isTimeshiftEnabled": self.LiveisTimeshiftEnabled,
+            "isUadEnabled": self.LiveisUadEnabled,
+            "isIchibaEnabled": self.LiveisIchibaEnabled,
+            "isOfficialIchibaOnly": self.LiveisOfficialIchibaOnly,
             "maxQuality": self.LivemaxQuality,
-            "isQuotable": bool(self.LiveisQuotable),
-            "isAutoCommentFilterEnabled": bool(self.LiveisAutoCommentFilterEnabled),
+            "isQuotable": self.LiveisQuotable,
+            "isAutoCommentFilterEnabled": self.LiveisAutoCommentFilterEnabled,
         }
+       
+        response = requests.post(url, json.dumps(payload), headers = headers)      
         
-        # データを送る
-        response = requests.post(url, json.dumps(payload), headers = headers)
-
-        # 結果を返す
         return response.json()
         
 
