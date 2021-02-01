@@ -3,6 +3,7 @@
 ![GitHub](https://img.shields.io/badge/Python-3.8-3376AB?style=for-the-badge&logo=Python)
 ![](https://img.shields.io/badge/OS-Windows-0078D6?style=for-the-badge&logo=Windows)
 [![](https://img.shields.io/badge/Using-niconico-231815?style=for-the-badge&logo=niconico)](https://nicovideo.jp)
+[![GitHub release (latest by date)](https://img.shields.io/github/v/release/yt4687/nicoLiveReserver?style=for-the-badge)](https://github.com/yt4687/nicoLiveReserver/releases)
 
 # nicoLiveReserver
 ニコニコ生放送の放送枠の予約をCLIから行うツールです。  
