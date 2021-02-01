@@ -1,2 +1,18 @@
 
 .vscode/settings.json
+__pycache__/nicoLiveReserver.cpython-38.pyc
+build/nicoLiveReserver/Analysis-00.toc
+build/nicoLiveReserver/base_library.zip
+build/nicoLiveReserver/EXE-00.toc
+build/nicoLiveReserver/nicoLiveReserver.exe.manifest
+build/nicoLiveReserver/PKG-00.pkg
+build/nicoLiveReserver/PKG-00.toc
+build/nicoLiveReserver/PYZ-00.pyz
+build/nicoLiveReserver/PYZ-00.toc
+build/nicoLiveReserver/Tree-00.toc
+build/nicoLiveReserver/Tree-01.toc
+build/nicoLiveReserver/Tree-02.toc
+build/nicoLiveReserver/warn-nicoLiveReserver.txt
+build/nicoLiveReserver/xref-nicoLiveReserver.html
+dist/nicoLiveReserver.exe
+nicoLiveReserver.spec

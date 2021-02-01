@@ -37,10 +37,11 @@ class nicoLive:
         #'jk211': {'type': 'channel',   'id': 'ch2646846', 'name': 'BS11'},
         'jk222': {'type': 'community', 'id': 'co5193029', 'name': 'BS12'},
         'jk333': {'type': 'community', 'id': 'co5245469', 'name': 'AT-X'},
+        'jk2021':{'type': 'community', 'id':'' ,'name': '設定ファイルで指定した'}
     }
     
 
-    def __init__(self, jikkyo_id, set_caststart_time, set_cast_hours):
+    def __init__(self, jikkyo_id, set_caststart_time, set_cast_hours, data_ini_file):
 
         # 実況 ID
         self.jikkyo_id = jikkyo_id
@@ -55,31 +56,33 @@ class nicoLive:
         config_ini = os.path.dirname(os.path.abspath(sys.argv[0])) + '/nicoLiveReserver.ini'
         config = configparser.ConfigParser()
         config.read(config_ini, encoding='UTF-8')
-        config = configparser.ConfigParser()
-        config.read(config_ini, encoding='UTF-8')
+
+        # 生放送用の設定ファイルを読み込み
+        Livedata = configparser.ConfigParser()
+        Livedata.read(data_ini_file, encoding='UTF-8')
         
         #ニコニコセッション関係
         self.nicologin_mail = config.get('Default', 'nicologin_mail')
         self.nicologin_password = config.get('Default', 'nicologin_password')
 
-        #生放送関係
-        self.Livetitle = config.get('nicoLive', 'title')
-        self.Livedescription = config.get('nicoLive', 'description')
-        self.Livecategory = config.get('nicoLive', 'category')
-        self.LiveoptionalCategories = config.get('nicoLive', 'optionalCategories')
-        self.Livetags = config.get('nicoLive', 'tags')
-        self.LiveisTagOwnerLock = config.get('nicoLive', 'isTagOwnerLock')
-        self.LiveisMemberOnly = config.get('nicoLive', 'isMemberOnly')
-        self.LiveisTimeshiftEnabled = config.get('nicoLive', 'isTimeshiftEnabled')
-        self.LiveisUadEnabled = config.get('nicoLive', 'isUadEnabled')
-        self.LiveisIchibaEnabled = config.get('nicoLive', 'isIchibaEnabled')
-        self.LiveisOfficialIchibaOnly = config.get('nicoLive', 'isOfficialIchibaOnly')
-        self.LivemaxQuality = config.get('nicoLive', 'maxQuality')
-        self.LiveisQuotable = config.get('nicoLive', 'isQuotable')
-        self.LiveisAutoCommentFilterEnabled = config.get('nicoLive', 'isAutoCommentFilterEnabled')
+        # 生放送関係
+        self.Livetitle = Livedata.get('nicoLive', 'title')
+        self.Livedescription = Livedata.get('nicoLive', 'description')
+        self.Livecategory = Livedata.get('nicoLive', 'category')
+        self.LiveoptionalCategories = Livedata.get('nicoLive', 'optionalCategories')
+        self.Livetags = Livedata.get('nicoLive', 'tags')
+        self.LiveisTagOwnerLock = Livedata.get('nicoLive', 'isTagOwnerLock')
+        self.LiveisMemberOnly = Livedata.get('nicoLive', 'isMemberOnly')
+        self.LiveisTimeshiftEnabled = Livedata.get('nicoLive', 'isTimeshiftEnabled')
+        self.LiveisUadEnabled = Livedata.get('nicoLive', 'isUadEnabled')
+        self.LiveisIchibaEnabled = Livedata.get('nicoLive', 'isIchibaEnabled')
+        self.LiveisOfficialIchibaOnly = Livedata.get('nicoLive', 'isOfficialIchibaOnly')
+        self.LivemaxQuality = Livedata.get('nicoLive', 'maxQuality')
+        self.LiveisQuotable = Livedata.get('nicoLive', 'isQuotable')
+        self.LiveisAutoCommentFilterEnabled = Livedata.get('nicoLive', 'isAutoCommentFilterEnabled')
         
-        # コミュニティIDを手動で使いたいとき用
-        self.LivecommunityId = config.get('nicoLive', 'communityId')
+        # コミュニティIDを手動でセットしたいとき用
+        self.LivecommunityId = Livedata.get('nicoLive', 'communityId')
 
         # タイトル内の日付文字を置換
         if self.Livetitle.rfind('date') != -1:
@@ -92,6 +95,7 @@ class nicoLive:
         user_session = self.__login()
         url = 'http://live2.nicovideo.jp/unama/api/v2/programs'
 
+        # コミュニティIDが 2021 の時は入力されたのを使う
         if self.jikkyo_id == 'jk2021':
             jikkyo_comm = self.LivecommunityId
         else: 
@@ -104,11 +108,15 @@ class nicoLive:
             'Accept' : 'application/json'
         }
 
+        # タグを投稿できる状態に処理
+        Livetags = '['+self.Livetags+']'
+        Livetags = json.loads(str(Livetags))
+
         payload = {
             "title":self.Livetitle,
             "description":self.Livedescription,
             "category":self.Livecategory,
-            #"tags":[self.Livetags], # 修正中
+            "tags": Livetags,
             "isTagOwnerLock": bool(self.LiveisTagOwnerLock),
             "isMemberOnly": bool(self.LiveisMemberOnly),
             "communityId": jikkyo_comm,
@@ -121,13 +129,11 @@ class nicoLive:
             "isQuotable": bool(self.LiveisQuotable),
             "isAutoCommentFilterEnabled": bool(self.LiveisAutoCommentFilterEnabled),
         }
-
-        #print(payload)
-
-        response = requests.post(url, json.dumps(payload), headers = headers)
-        #print(response)
         
+        # データを送る
+        response = requests.post(url, json.dumps(payload), headers = headers)
 
+        # 結果を返す
         return response.json()
         
 
@@ -189,6 +195,7 @@ class nicoLive:
             return None
     
     Live_error_table = {
+        'INVALID_PARAMETER': {'message': 'パラメーターエラー。出る場合は ini の間違いを確認し、間違いがない場合は開発者まで報告ください'},
         'INVALID_TAGS': {'message': '無効なタグ指定があります。'},
         'OVERLAP_MAINTENANCE': {'message': '番組放送時間にメンテナンス時間が重複しています'},
         'AUTHENTICATION_FAILED': {'message': 'niconicoセッションが無効です。IDとパスワードを確認してください'},

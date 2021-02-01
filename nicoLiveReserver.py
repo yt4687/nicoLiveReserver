@@ -24,6 +24,7 @@ def main():
     parser.add_argument('Time', help = '予約を開始する時間 (ex: 04:00)')
     parser.add_argument('-ho','--hours', help = '放送する時間、チャンネル以外では最大放送時間が6時間までなので6時間以降は分割されます (ex: 24)')
     parser.add_argument('-m','--minutes', help = '放送する時間（分）、チャンネル以外では最大放送時間が6時間までなので6時間以降は分割されます (ex: 24)')
+    parser.add_argument('-ini','--inifile', help = '放送する時間（分）、チャンネル以外では最大放送時間が6時間までなので6時間以降は分割されます (ex: 24)')
     parser.add_argument('-v', '--version', action='version', help = 'バージョン情報を表示する', version='JKReserveCrawler version ' + __version__)
     args = parser.parse_args()
 
@@ -32,6 +33,7 @@ def main():
     date_time = dateutil.parser.parse(args.Date.rstrip() +' ' + args.Time.rstrip()) #日付と時刻を連結する
     hours = args.hours
     minutes = args.minutes
+    data_ini = args.inifile
 
     # 予約可能期間外かチェック
     now = datetime.datetime.now()
@@ -46,17 +48,28 @@ def main():
         raise Exception("放送時間が指定されていません")
 
 
-    # 設定読み込み
+    # 設定ファイルの存在を確認
     config_ini = os.path.dirname(os.path.abspath(sys.argv[0])) + '/nicoLiveReserver.ini'
     if not os.path.exists(config_ini):
-        raise Exception('JKReserveCrawler.ini が存在しません。JKReserveCrawler.example.ini からコピーし、\n適宜設定を変更して JKReserveCrawler と同じ場所に配置してください。')
+        raise Exception('nicoLiveReserver.ini が存在しません。nicoLiveReserver.example.ini からコピーし、\n適宜設定を変更して JKReserveCrawler と同じ場所に配置してください。')
+    
+    # 生放送用の設定を読み込むファイルの存在を確認
+    if data_ini != None:
+        data_ini_file = os.path.dirname(os.path.abspath(sys.argv[0])) + '/' + data_ini
+        if not os.path.exists(data_ini_file):
+            raise Exception('指定された ini ファイルが見つかりません。同じフォルダにあることを確認し、ファイル名が間違っていないか確認してください')     
+    else:
+        data_ini_file = os.path.dirname(os.path.abspath(sys.argv[0])) + '/data.ini'
+        if not os.path.exists(data_ini_file):
+            raise Exception('data.ini が見つかりません。同じフォルダにあることを確認してください')
+    
 
 
     def post(jikkyo_id, set_caststart_time, set_cast_hours):
 
         # インスタンスを作成
-        jkcomment = nicoLive.nicoLive(jikkyo_id, set_caststart_time, set_cast_hours)
-        print(f"{set_caststart_time.strftime('%Y/%m/%d %H:%M')} に非公式 {nicoLive.nicoLive.getJikkyoChannelName(jikkyo_id)} コミュニティの放送予定を作成します")
+        jkcomment = nicoLive.nicoLive(jikkyo_id, set_caststart_time, set_cast_hours, data_ini_file)
+        print(f"{set_caststart_time.strftime('%Y/%m/%d %H:%M')} に {nicoLive.nicoLive.getJikkyoChannelName(jikkyo_id)} コミュニティの放送予定を作成します")
         
         try:
             result = jkcomment.setbroadcast('create')
@@ -72,7 +85,7 @@ def main():
         else:
             error_code = result['meta']['errorCode']
             e_message = jkcomment.getLiveerrormsg(error_code)
-            print(f"生放送の予約に失敗しました。[status：{result['meta']['status']}] errorCode：{result['meta']['errorCode']}")
+            print(f"生放送の予約に失敗しました。status：{result['meta']['status']} [errorCode：{result['meta']['errorCode']}]")
             print('失敗理由：' + e_message)
 
     # 枠取りをするときに使う変数
