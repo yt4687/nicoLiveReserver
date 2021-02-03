@@ -13,19 +13,19 @@ import datetime
 import nicoLive
 
 # バージョン情報
-__version__ = '1.0.0'
+__version__ = '1.1.0'
 
 def main():
 
     # 引数解析
-    parser = argparse.ArgumentParser(description = 'ニコニコ生放送の枠を自動で取得するツール', formatter_class = argparse.RawTextHelpFormatter)
+    parser = argparse.ArgumentParser(description = 'ニコニコ生放送の枠をCLIベースで取得するツール', formatter_class = argparse.RawTextHelpFormatter)
     parser.add_argument('Channel', help = '取得する実況チャンネル (ex: jk211)')
     parser.add_argument('Date', help = '予約をする日付 (ex: 2020/12/19)')
     parser.add_argument('Time', help = '予約を開始する時間 (ex: 04:00)')
     parser.add_argument('-ho','--hours', help = '放送する時間、チャンネル以外では最大放送時間が6時間までなので6時間以降は分割されます (ex: 24)')
     parser.add_argument('-m','--minutes', help = '放送する時間（分）、チャンネル以外では最大放送時間が6時間までなので6時間以降は分割されます (ex: 24)')
     parser.add_argument('-ini','--inifile', help = '放送する時間（分）、チャンネル以外では最大放送時間が6時間までなので6時間以降は分割されます (ex: 24)')
-    parser.add_argument('-v', '--version', action='version', help = 'バージョン情報を表示する', version='JKReserveCrawler version ' + __version__)
+    parser.add_argument('-v', '--version', action='version', help = 'バージョン情報を表示する', version='nicoLiveReserver version ' + __version__)
     args = parser.parse_args()
 
     # 引数
