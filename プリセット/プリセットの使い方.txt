@@ -7,30 +7,48 @@ BSASAHI.ini => BS朝日用の設定
 BSTBS.ini => BS-TBS用の設定
 BSTERETO.ini => BSテレ東用の設定
 BSFUJI.ini => BSフジ用の設定
+WOWOWPRIME.ini => WOWOWPRIME用の設定
+WOWOWLIVE.ini => WOWOWLIVE用の設定
+WOWOWCINEMA.ini => WOWOWCINEMA用の設定
 BS12.ini => BS12用の設定
+ATX.ini => AT-X用の設定
 
 使い方は
 ①必要なファイルを nicoLiveReserver.exe (あるいは nicoLiveReserver.py )のあるファイルにコピーします。
 ②コマンドプロンプト( CMD )を起動して、
-「nicoLiveReserver.exe (実況チャンネル,jk101など) (予約する日付,2021/02/01など) (配信開始する時間 04:00など) -ho (配信する長さ(1時間単位),24など) -m（配信する長さ(30分を追加するときのみ),30）-ini (上のファイル名,NHKBS1.iniなど)
+「nicoLiveReserver.exe (予約する日付,2021/02/01など) (配信開始する時間 04:00など) -ho (配信する長さ(1時間単位),24など) -m（配信する長さ(30分を追加するときのみ),30）-ini (上のファイル名,NHKBS1.iniなど)
 
 公式と同じように24時間配信するときの例、ユーザー生放送は6時間の制限があるので自動で分割されて4本分の配信予定になります
 exe版（日付を変えれば、そのままコピペでもOKのはず）
-jk101は nicoLiveReserver.exe jk101 2021/02/01 04:00 -ho 24 -ini NHKBS1.ini
-jk103は nicoLiveReserver.exe jk103 2021/02/01 04:00 -ho 24 -ini NHKBSP.ini
-jk141は nicoLiveReserver.exe jk141 2021/02/01 04:00 -ho 24 -ini BSNTV.ini
-jk151は nicoLiveReserver.exe jk152 2021/02/01 04:00 -ho 24 -ini BSASAHI.ini
-jk161は nicoLiveReserver.exe jk161 2021/02/01 04:00 -ho 24 -ini BSTBS.ini
-jk171は nicoLiveReserver.exe jk171 2021/02/01 04:00 -ho 24 -ini BSTERETO.ini
-jk181は nicoLiveReserver.exe jk181 2021/02/01 04:00 -ho 24 -ini BSFUJI.ini
-jk222は nicoLiveReserver.exe jk222 2021/02/01 04:00 -ho 24 -ini BS12.ini
+jk10は nicoLiveReserver.exe 2021/02/01 04:00 -ho 24 -ini TVTAMA.ini
+jk11は nicoLiveReserver.exe 2021/02/01 04:00 -ho 24 -ini TVK.ini
+jk101は nicoLiveReserver.exe 2021/02/01 04:00 -ho 24 -ini NHKBS1.ini
+jk103は nicoLiveReserver.exe 2021/02/01 04:00 -ho 24 -ini NHKBSP.ini
+jk141は nicoLiveReserver.exe 2021/02/01 04:00 -ho 24 -ini BSNTV.ini
+jk151は nicoLiveReserver.exe 2021/02/01 04:00 -ho 24 -ini BSASAHI.ini
+jk161は nicoLiveReserver.exe 2021/02/01 04:00 -ho 24 -ini BSTBS.ini
+jk171は nicoLiveReserver.exe 2021/02/01 04:00 -ho 24 -ini BSTERETO.ini
+jk181は nicoLiveReserver.exe 2021/02/01 04:00 -ho 24 -ini BSFUJI.ini
+jk191は nicoLiveReserver.exe 2021/02/01 04:00 -ho 24 -ini WOWOWPRIME.ini
+jk192は nicoLiveReserver.exe 2021/02/01 04:00 -ho 24 -ini WOWOWLIVE.ini
+jk193は nicoLiveReserver.exe 2021/02/01 04:00 -ho 24 -ini WOWOWCINEMA.ini
+jk222は nicoLiveReserver.exe 2021/02/01 04:00 -ho 24 -ini BS12.ini
+jk333は nicoLiveReserver.exe 2021/02/01 04:00 -ho 24 -ini ATX.ini
+
 
 python版
-jk101は python nicoLiveReserver.py jk101 2021/02/01 04:00 -ho 24 -ini NHKBS1.ini
-jk103は python nicoLiveReserver.py jk103 2021/02/01 04:00 -ho 24 -ini NHKBSP.ini
-jk141は python nicoLiveReserver.py jk141 2021/02/01 04:00 -ho 24 -ini BSNTV.ini
-jk151は python nicoLiveReserver.py jk152 2021/02/01 04:00 -ho 24 -ini BSASAHI.ini
-jk161は python nicoLiveReserver.py jk161 2021/02/01 04:00 -ho 24 -ini BSTBS.ini
-jk171は python nicoLiveReserver.py jk171 2021/02/01 04:00 -ho 24 -ini BSTERETO.ini
-jk181は python nicoLiveReserver.py jk181 2021/02/01 04:00 -ho 24 -ini BSFUJI.ini
-jk222は python nicoLiveReserver.py jk222 2021/02/01 04:00 -ho 24 -ini BS12.ini
+jk10は python nicoLiveReserver.py 2021/02/01 04:00 -ho 24 -ini TVTAMA.ini
+jk11は python nicoLiveReserver.py 2021/02/01 04:00 -ho 24 -ini TVK.ini
+jk101は python nicoLiveReserver.py 2021/02/01 04:00 -ho 24 -ini NHKBS1.ini
+jk103は python nicoLiveReserver.py 2021/02/01 04:00 -ho 24 -ini NHKBSP.ini
+jk141は python nicoLiveReserver.py 2021/02/01 04:00 -ho 24 -ini BSNTV.ini
+jk151は python nicoLiveReserver.py 2021/02/01 04:00 -ho 24 -ini BSASAHI.ini
+jk161は python nicoLiveReserver.py 2021/02/01 04:00 -ho 24 -ini BSTBS.ini
+jk171は python nicoLiveReserver.py 2021/02/01 04:00 -ho 24 -ini BSTERETO.ini
+jk181は python nicoLiveReserver.py 2021/02/01 04:00 -ho 24 -ini BSFUJI.ini
+jk222は python nicoLiveReserver.py 2021/02/01 04:00 -ho 24 -ini BS12.ini
+jk191は python nicoLiveReserver.py 2021/02/01 04:00 -ho 24 -ini WOWOWPRIME.ini
+jk192は python nicoLiveReserver.py 2021/02/01 04:00 -ho 24 -ini WOWOWLIVE.ini
+jk193は python nicoLiveReserver.py 2021/02/01 04:00 -ho 24 -ini WOWOWCINEMA.ini
+jk222は python nicoLiveReserver.py 2021/02/01 04:00 -ho 24 -ini BS12.ini
+jk333は python nicoLiveReserver.py 2021/02/01 04:00 -ho 24 -ini ATX.ini

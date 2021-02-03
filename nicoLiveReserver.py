@@ -13,23 +13,21 @@ import datetime
 import nicoLive
 
 # バージョン情報
-__version__ = '1.1.0'
+__version__ = '2.0.0'
 
 def main():
 
     # 引数解析
     parser = argparse.ArgumentParser(description = 'ニコニコ生放送の枠をCLIベースで取得するツール', formatter_class = argparse.RawTextHelpFormatter)
-    parser.add_argument('Channel', help = '取得する実況チャンネル (ex: jk211)')
     parser.add_argument('Date', help = '予約をする日付 (ex: 2020/12/19)')
     parser.add_argument('Time', help = '予約を開始する時間 (ex: 04:00)')
-    parser.add_argument('-ho','--hours', help = '放送する時間、チャンネル以外では最大放送時間が6時間までなので6時間以降は分割されます (ex: 24)')
-    parser.add_argument('-m','--minutes', help = '放送する時間（分）、チャンネル以外では最大放送時間が6時間までなので6時間以降は分割されます (ex: 24)')
-    parser.add_argument('-ini','--inifile', help = '放送する時間（分）、チャンネル以外では最大放送時間が6時間までなので6時間以降は分割されます (ex: 24)')
+    parser.add_argument('-ho','--hours', help = '放送する時間（時）、チャンネル以外では最大放送時間が6時間までなので6時間以降は分割されます (ex: 24)')
+    parser.add_argument('-m','--minutes', help = '放送する時間（分）配信時間を30分に設定、または30分追加するときに使います')
+    parser.add_argument('-ini','--inifile', help = '読み込む設定ファイルを指定。指定されない時は data.ini を読みます (ex. NHKBS1.ini)')
     parser.add_argument('-v', '--version', action='version', help = 'バージョン情報を表示する', version='nicoLiveReserver version ' + __version__)
     args = parser.parse_args()
 
     # 引数
-    jikkyo_id = args.Channel.rstrip()
     date_time = dateutil.parser.parse(args.Date.rstrip() +' ' + args.Time.rstrip()) #日付と時刻を連結する
     hours = args.hours
     minutes = args.minutes
@@ -51,7 +49,7 @@ def main():
     # 設定ファイルの存在を確認
     config_ini = os.path.dirname(os.path.abspath(sys.argv[0])) + '/nicoLiveReserver.ini'
     if not os.path.exists(config_ini):
-        raise Exception('nicoLiveReserver.ini が存在しません。nicoLiveReserver.example.ini からコピーし、\n適宜設定を変更して JKReserveCrawler と同じ場所に配置してください。')
+        raise Exception('nicoLiveReserver.ini が存在しません。nicoLiveReserver.example.ini からコピーし、\n適宜設定を変更して nicoLiveReserver と同じ場所に配置してください。')
     
     # 生放送用の設定を読み込むファイルの存在を確認
     if data_ini != None:
@@ -65,11 +63,11 @@ def main():
     
 
 
-    def post(jikkyo_id, set_caststart_time, set_cast_hours):
+    def post(set_caststart_time, set_cast_hours):
 
         # インスタンスを作成
-        jkcomment = nicoLive.nicoLive(jikkyo_id, set_caststart_time, set_cast_hours, data_ini_file)
-        print(f"{set_caststart_time.strftime('%Y/%m/%d %H:%M')} に {nicoLive.nicoLive.getJikkyoChannelName(jikkyo_id)} コミュニティの放送予定を作成します")
+        jkcomment = nicoLive.nicoLive(set_caststart_time, set_cast_hours, data_ini_file)
+        print(f"{set_caststart_time.strftime('%Y/%m/%d %H:%M')} に 指定されたコミュニティの放送予定を作成します")
         
         try:
             result = jkcomment.setbroadcast('create')
@@ -108,14 +106,14 @@ def main():
 
     while finish_count < set_program_count:
         set_cast_hours =  360 # 放送予定時間を6時間にセット
-        post(jikkyo_id, set_caststart_time, set_cast_hours)
+        post(set_caststart_time, set_cast_hours)
 
         set_caststart_time = set_caststart_time + datetime.timedelta(hours = 6) # 次の放送開始時間をセット
         finish_count += 1
 
     if set_program_count_hasu > 0:
         set_cast_hours =  set_program_count_hasu # 放送予定時間をセット
-        post(jikkyo_id, set_caststart_time, set_cast_hours)
+        post(set_caststart_time, set_cast_hours)
 
 if __name__ == '__main__':
     main()

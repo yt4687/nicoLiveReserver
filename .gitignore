@@ -18,3 +18,6 @@ dist/nicoLiveReserver.exe
 nicoLiveReserver.spec
 nicoLiveReserver.zip
 __pycache__/nicoLive.cpython-38.pyc
+nicoLiveReserver.ini
+cookie.dump
+NHKBS1.ini
