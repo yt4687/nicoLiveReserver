@@ -172,7 +172,13 @@ class nicoLive:
             "isQuotable": self.LiveisQuotable,
             "isAutoCommentFilterEnabled": self.LiveisAutoCommentFilterEnabled,
         }
-       
+
+        # サブカテゴリがある時は追加する
+        if self.LiveoptionalCategories == ('凸待ち' or '顔出し' or 'クルーズ待ち' or '生ゲームで遊ぶ'):
+            payload["optionalCategories"] = self.LiveoptionalCategories
+        
+        #print(payload)
+        
         response = requests.post(url, json.dumps(payload), headers = headers)      
         
         return response.json()

@@ -17,3 +17,4 @@ build/nicoLiveReserver/xref-nicoLiveReserver.html
 dist/nicoLiveReserver.exe
 nicoLiveReserver.spec
 nicoLiveReserver.zip
+__pycache__/nicoLive.cpython-38.pyc
