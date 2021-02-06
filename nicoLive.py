@@ -96,10 +96,15 @@ class nicoLive:
         
 
         # タイトル内の日付文字を置換
-        if self.Livetitle.rfind('date') != -1:
-            self.Livetitle = self.Livetitle.replace('date', self.date_time.strftime('%Y年%m月%d日'))
-        elif self.Livetitle.rfind('date2') != -1:
-            self.Livetitle = self.Livetitle.replace('date2', self.date_time.strftime('%Y/%m/%d'))
+        if self.Livetitle.rfind('{date}') != -1:
+            self.Livetitle = self.Livetitle.replace('{date}', self.date_time.strftime('%Y年%m月%d日'))
+        elif self.Livetitle.rfind('{date2}') != -1:
+            self.Livetitle = self.Livetitle.replace('{date2}', self.date_time.strftime('%Y/%m/%d'))
+        
+        # タイトル内の時間文字を置換
+        if self.Livetitle.rfind('{time}') != -1:
+            self.Livetitle = self.Livetitle.replace('{time}', self.date_time.strftime('%H:%M～'))
+
 
     def setbroadcast(self, create):
 
