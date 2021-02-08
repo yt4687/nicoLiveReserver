@@ -11,6 +11,32 @@ import websocket
 import configparser
 
 class nicoLive:
+
+    jikkyo_id_table = {
+        #'jk1': {'type': 'channel', 'id': 'ch2646436', 'name': 'NHK総合'},
+        #'jk2': {'type': 'channel', 'id': 'ch2646437', 'name': 'NHKEテレ'},
+        #'jk4': {'type': 'channel', 'id': 'ch2646438', 'name': '日本テレビ'},
+        #'jk5': {'type': 'channel', 'id': 'ch2646439', 'name': 'テレビ朝日'},
+        #'jk6': {'type': 'channel', 'id': 'ch2646440', 'name': 'TBSテレビ'},
+        #'jk7': {'type': 'channel', 'id': 'ch2646441', 'name': 'テレビ東京'},
+        #'jk8': {'type': 'channel', 'id': 'ch2646442', 'name': 'フジテレビ'},
+        #'jk9': {'type': 'channel', 'id': 'ch2646485', 'name': 'TOKYO MX'},
+        'jk10': {'type': 'community', 'id': 'co5253063', 'name': 'テレ玉', 'ini': '/Preset/TVTAMA.ini'},
+        'jk11': {'type': 'community', 'id': 'co5215296', 'name': 'tvk', 'ini': '/Preset/TVK.ini'},
+        'jk101': {'type': 'community', 'id': 'co5214081', 'name': 'NHK BS1', 'ini': '/Preset/NHKBS1.ini'},
+        'jk103': {'type': 'community', 'id': 'co5175227', 'name': 'NHK BSプレミアム', 'ini': '/Preset/NHKBSP.ini'},
+        'jk141': {'type': 'community', 'id': 'co5175341', 'name': 'BS日テレ', 'ini': '/Preset/BSNTV.ini'},
+        'jk151': {'type': 'community', 'id': 'co5175345', 'name': 'BS朝日', 'ini': '/Preset/BSASAHI.ini'},
+        'jk161': {'type': 'community', 'id': 'co5176119', 'name': 'BS-TBS', 'ini': '/Preset/BS-TBS.ini'},
+        'jk171': {'type': 'community', 'id': 'co5176122', 'name': 'BSテレ東', 'ini': '/Preset/BSTERETO.ini'},
+        'jk181': {'type': 'community', 'id': 'co5176125', 'name': 'BSフジ', 'ini': '/Preset/BSFUJI.ini'},
+        'jk191': {'type': 'community', 'id': 'co5251972', 'name': 'WOWOW PRIME', 'ini': '/Preset/WOWOWPRIME.ini'},
+        'jk192': {'type': 'community', 'id': 'co5251976', 'name': 'WOWOW LIVE', 'ini': '/Preset/WOWOWLIVE.ini'},
+        'jk193': {'type': 'community', 'id': 'co5251983', 'name': 'WOWOW CINEMA', 'ini': '/Preset/WOWOWCINEMA.ini'},
+        #'jk211': {'type': 'channel',   'id': 'ch2646846', 'name': 'BS11'},
+        'jk222': {'type': 'community', 'id': 'co5193029', 'name': 'BS12', 'ini': '/Preset/BS12.ini'},
+        'jk333': {'type': 'community', 'id': 'co5245469', 'name': 'AT-X', 'ini': '/Preset/AT-X.ini'},
+    }
   
     def __init__(self, set_caststart_time, set_cast_hours, data_ini_file):
 
@@ -150,6 +176,22 @@ class nicoLive:
         
         return response.json()
         
+    # 実況チャンネル名を取得
+    @staticmethod
+    def getJikkyoChannelName(jikkyo_id):
+        if jikkyo_id in nicoLive.jikkyo_id_table:
+            return nicoLive.jikkyo_id_table[jikkyo_id]['name']
+        else:
+            return '指定された'
+    
+    # 実況チャンネルを指定されたときのini名を取得
+    @staticmethod
+    def getJikkyoChannelini(jikkyo_id):
+        if jikkyo_id in nicoLive.jikkyo_id_table:
+            return nicoLive.jikkyo_id_table[jikkyo_id]['ini']
+        else:
+            return None
+
 
     # ニコニコにログインする
     def __login(self, force = False):

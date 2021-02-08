@@ -13,7 +13,7 @@ import datetime
 import nicoLive
 
 # バージョン情報
-__version__ = '2.0.0'
+__version__ = '2.1.0'
 
 def main():
 
@@ -21,6 +21,7 @@ def main():
     parser = argparse.ArgumentParser(description = 'ニコニコ生放送の枠をCLIベースで取得するツール', formatter_class = argparse.RawTextHelpFormatter)
     parser.add_argument('Date', help = '予約をする日付 (ex: 2020/12/19)')
     parser.add_argument('Time', help = '予約を開始する時間 (ex: 04:00)')
+    parser.add_argument('-ch','--jkchannel', help = '予約する実況コミュニティを指定します。指定した場合はプリセットのini情報が自動的にセットされますが必要に応じてiniを指定することもできます。')
     parser.add_argument('-ho','--hours', help = '放送する時間（時）、チャンネル以外では最大放送時間が6時間までなので6時間以降は分割されます (ex: 24)')
     parser.add_argument('-m','--minutes', help = '放送する時間（分）配信時間を30分に設定、または30分追加するときに使います')
     parser.add_argument('-ini','--inifile', help = '読み込む設定ファイルを指定。指定されない時は data.ini を読みます (ex. NHKBS1.ini)')
@@ -28,6 +29,7 @@ def main():
     args = parser.parse_args()
 
     # 引数
+    jikkyo_id = args.jkchannel
     date_time = dateutil.parser.parse(args.Date.rstrip() +' ' + args.Time.rstrip()) #日付と時刻を連結する
     hours = args.hours
     minutes = args.minutes
@@ -51,23 +53,24 @@ def main():
     if not os.path.exists(config_ini):
         raise Exception('nicoLiveReserver.ini が存在しません。nicoLiveReserver.example.ini からコピーし、\n適宜設定を変更して nicoLiveReserver と同じ場所に配置してください。')
     
-    # 生放送用の設定を読み込むファイルの存在を確認
-    if data_ini != None:
+    # data_ini_file にiniのファイル情報を作成 生放送用の設定を読み込むファイルの存在を確認
+    if data_ini != None: # ini が指定されているとき
         data_ini_file = os.path.dirname(os.path.abspath(sys.argv[0])) + '/' + data_ini
         if not os.path.exists(data_ini_file):
             raise Exception('指定された ini ファイルが見つかりません。同じフォルダにあることを確認し、ファイル名が間違っていないか確認してください')     
-    else:
+    elif jikkyo_id != None: # 実況IDが指定されているとき
+        data_ini_file = os.path.dirname(os.path.abspath(sys.argv[0])) + nicoLive.nicoLive.getJikkyoChannelini(jikkyo_id)
+    else: # 指定されていない時
         data_ini_file = os.path.dirname(os.path.abspath(sys.argv[0])) + '/data.ini'
         if not os.path.exists(data_ini_file):
-            raise Exception('data.ini が見つかりません。同じフォルダにあることを確認してください')
-    
+            raise Exception('data.ini が見つかりません。同じフォルダにあることを確認してください')   
 
 
     def post(set_caststart_time, set_cast_hours):
 
         # インスタンスを作成
         jkcomment = nicoLive.nicoLive(set_caststart_time, set_cast_hours, data_ini_file)
-        print(f"{set_caststart_time.strftime('%Y/%m/%d %H:%M')} に 指定されたコミュニティの放送予定を作成します")
+        print(f"{set_caststart_time.strftime('%Y/%m/%d %H:%M')} に {nicoLive.nicoLive.getJikkyoChannelName(jikkyo_id)} コミュニティの放送予定を作成します")
         
         try:
             result = jkcomment.setbroadcast('create')
