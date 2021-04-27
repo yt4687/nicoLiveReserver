@@ -66,10 +66,11 @@ def main():
 
     # autosettingが適用された
     if args.autset == True:
-        now = dt.date.today() + dt.timedelta(days = 1)
+        datec = config.get('AutoSetting', 'datec')
         jikkyo_id = config.get('AutoSetting', 'jkch')
         time = config.get('AutoSetting', 'time')
-        days = config.get('AutoSetting', 'days')
+        days = config.get('AutoSetting', 'Reservedays')
+        now = dt.date.today() + dt.timedelta(days = int(datec))
         date_time =  dt.datetime.strptime((now.strftime('%Y/%m/%d') + ' ' + time), '%Y/%m/%d %H:%M')
         hours = int(days)*24
         minutes = False
