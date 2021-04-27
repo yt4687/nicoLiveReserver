@@ -21,53 +21,70 @@ class nicoLive:
         #'jk7': {'type': 'channel', 'id': 'ch2646441', 'name': 'テレビ東京'},
         #'jk8': {'type': 'channel', 'id': 'ch2646442', 'name': 'フジテレビ'},
         #'jk9': {'type': 'channel', 'id': 'ch2646485', 'name': 'TOKYO MX'},
-        'jk10': {'type': 'community', 'id': 'co5253063', 'name': 'テレ玉', 'ini': '/Preset/TVTAMA.ini'},
-        'jk11': {'type': 'community', 'id': 'co5215296', 'name': 'tvk', 'ini': '/Preset/TVK.ini'},
-        'jk101': {'type': 'community', 'id': 'co5214081', 'name': 'NHK BS1', 'ini': '/Preset/NHKBS1.ini'},
-        'jk103': {'type': 'community', 'id': 'co5175227', 'name': 'NHK BSプレミアム', 'ini': '/Preset/NHKBSP.ini'},
-        'jk141': {'type': 'community', 'id': 'co5175341', 'name': 'BS日テレ', 'ini': '/Preset/BSNTV.ini'},
-        'jk151': {'type': 'community', 'id': 'co5175345', 'name': 'BS朝日', 'ini': '/Preset/BSASAHI.ini'},
-        'jk161': {'type': 'community', 'id': 'co5176119', 'name': 'BS-TBS', 'ini': '/Preset/BS-TBS.ini'},
-        'jk171': {'type': 'community', 'id': 'co5176122', 'name': 'BSテレ東', 'ini': '/Preset/BSTERETO.ini'},
-        'jk181': {'type': 'community', 'id': 'co5176125', 'name': 'BSフジ', 'ini': '/Preset/BSFUJI.ini'},
-        'jk191': {'type': 'community', 'id': 'co5251972', 'name': 'WOWOW PRIME', 'ini': '/Preset/WOWOWPRIME.ini'},
-        'jk192': {'type': 'community', 'id': 'co5251976', 'name': 'WOWOW LIVE', 'ini': '/Preset/WOWOWLIVE.ini'},
-        'jk193': {'type': 'community', 'id': 'co5251983', 'name': 'WOWOW CINEMA', 'ini': '/Preset/WOWOWCINEMA.ini'},
+        'jk10': {'type': 'community', 'id': 'co5253063', 'name': 'テレ玉', 'tag': ',{"label":"テレ玉","isLocked":true}'},
+        'jk11': {'type': 'community', 'id': 'co5215296', 'name': 'tvk', 'tag': ',{"label":"ｔｖｋ","isLocked":true},{"label":"TVK","isLocked":true}'},
+        'jk12': {'type': 'community', 'id': 'co5359761', 'name': '千葉テレビ', 'tag': ',{"label":"千葉テレビ","isLocked":true},{"label":"チバテレビ","isLocked":true}'},
+        'jk101': {'type': 'community', 'id': 'co5214081', 'name': 'NHK BS1', 'tag': ',{"label":"NHK_BS1","isLocked":true}'},
+        'jk103': {'type': 'community', 'id': 'co5175227', 'name': 'NHK BSプレミアム', 'tag':',{"label":"NHK_BSP","isLocked":true},{"label":"NHK_BSプレミアム","isLocked":true}' },
+        'jk141': {'type': 'community', 'id': 'co5175341', 'name': 'BS日テレ', 'tag': ',{"label":"BS日テレ","isLocked":true}'},
+        'jk151': {'type': 'community', 'id': 'co5175345', 'name': 'BS朝日', 'tag': ',{"label":"BS朝日","isLocked":true}'},
+        'jk161': {'type': 'community', 'id': 'co5176119', 'name': 'BS-TBS', 'tag': ',{"label":"BS朝日","isLocked":true}'},
+        'jk171': {'type': 'community', 'id': 'co5176122', 'name': 'BSテレ東', 'tag': ',{"label":"BS-TBS","isLocked":true}'},
+        'jk181': {'type': 'community', 'id': 'co5176125', 'name': 'BSフジ', 'tag': ',{"label":"BSフジ","isLocked":true}'},
+        'jk191': {'type': 'community', 'id': 'co5251972', 'name': 'WOWOW PRIME', 'tag': ',{"label":"WOWOW_Prime","isLocked":true},{"label":"WOWOWプライム","isLocked":true}'},
+        'jk192': {'type': 'community', 'id': 'co5251976', 'name': 'WOWOW LIVE', 'tag': ',{"label":"WOWOW_Live","isLocked":true},{"label":"WOWOWライブ","isLocked":true}'},
+        'jk193': {'type': 'community', 'id': 'co5251983', 'name': 'WOWOW CINEMA', 'tag': ',{"label":"WOWOW_Cinema","isLocked":true},{"label":"WOWOWシネマ","isLocked":true}'},
         #'jk211': {'type': 'channel',   'id': 'ch2646846', 'name': 'BS11'},
-        'jk222': {'type': 'community', 'id': 'co5193029', 'name': 'BS12', 'ini': '/Preset/BS12.ini'},
-        'jk333': {'type': 'community', 'id': 'co5245469', 'name': 'AT-X', 'ini': '/Preset/AT-X.ini'},
+        'jk222': {'type': 'community', 'id': 'co5193029', 'name': 'BS12', 'tag': ',{"label":"BS12","isLocked":true},{"label":"Twellv","isLocked":true}'},
+        'jk236': {'type': 'community', 'id': 'co5296297', 'name': 'BSアニマックス', 'tag': ',{"label":"BSANIMAX","isLocked":true},{"label":"BSアニマックス","isLocked":true}'},
+        'jk333': {'type': 'community', 'id': 'co5245469', 'name': 'AT-X', 'tag': ',{"label":"AT-X","isLocked":true}'},
     }
-  
-    def __init__(self, set_caststart_time, set_cast_hours, data_ini_file):
+    # エラーコード一覧
+    Live_error_table = {
+        'INVALID_PARAMETER': {'message': 'パラメーターエラー。出る場合は ini の間違いを確認し、間違いがない場合は開発者まで報告ください'},
+        'INVALID_TAGS': {'message': '無効なタグ指定があります。'},
+        'OVERLAP_MAINTENANCE': {'message': '番組放送時間にメンテナンス時間が重複しています'},
+        'AUTHENTICATION_FAILED': {'message': 'セッションが無効です。IDとパスワードを確認してください'},
+        'NO_COMMUNITY_OWNED': {'message': '指定されたコミュニティでの放送権がありません'},
+        'COMMUNITY_NOT_FOUND': {'message': '指定されたコミュニティが存在しません'},
+        'PENALIZED_COMMUNITY': {'message': '放送ペナルティを受けたコミュニティでは放送できません'},
+        'OVERLAP_COMMUNITY': {'message': '同一コミュニティで他に重複した別ユーザの放送の予定があります'},
+        'NOT_PREMIUM_USER': {'message': 'プレミアムユーザではありません'},
+        'PENALIZED_USER': {'message': '配信ペナルティを受けています'},
+        'OVERLAP_PROGRAM_PROVIDER': {'message': '該当時間に別の同ユーザの放送予定があります'},
+        'NO_PERMISSION': {'message': '許可のない操作をしようとした'},
+        'UNDER_MANTENANCE': {'message': 'メンテナンス中です'},
+        'SERVICE_ERROR': {'message': '一時的なサーバ不調によりリクエストに失敗しました(リトライすると直る可能性もありますし、障害の可能性もあります)'},
+    }
+
+
+     
+    def __init__(self, nicologin_mail, nicologin_password, set_start_time, set_end_time, set_cast_hours, jikkyo_id):
 
         # 取得する日付
-        self.date_time = set_caststart_time
+        self.start_time = set_start_time
+
+        # 終了する日付
+        self.end_time = set_end_time
 
         # 放送時間の長さ
         self.hours = set_cast_hours
 
-        # 設定読み込み (読み込む設定の量が多いので読み込み位置を変更した)
-        config_ini = os.path.dirname(os.path.abspath(sys.argv[0])) + '/nicoLiveReserver.ini'
-        config = configparser.ConfigParser()
-        config.read(config_ini, encoding='UTF-8')
-        #print('config_ini['+config_ini)
+        #ニコニコセッション関係
+        self.nicologin_mail = nicologin_mail
+        self.nicologin_password = nicologin_password
 
         # 生放送用の設定ファイルを読み込み
         Livedata = configparser.ConfigParser()
-        Livedata.read(data_ini_file, encoding='UTF-8')
-        
-        #ニコニコセッション関係
-        self.nicologin_mail = config.get('Default', 'nicologin_mail')
-        self.nicologin_password = config.get('Default', 'nicologin_password')
+        Livedata.read('Preset.ini', encoding='UTF-8')
 
         # 生放送関係
         self.Livetitle = Livedata.get('nicoLive', 'title')
         self.Livedescription = Livedata.get('nicoLive', 'description')
         self.Livecategory = Livedata.get('nicoLive', 'category')
-        self.LiveoptionalCategories = Livedata.get('nicoLive', 'optionalCategories')
         self.Livetags = Livedata.get('nicoLive', 'tags')
         self.LiveisTagOwnerLock = Livedata.get('nicoLive', 'isTagOwnerLock')
-        self.LivecommunityId = Livedata.get('nicoLive', 'communityId')
+        self.LivecommunityId = nicoLive.jikkyo_id_table[jikkyo_id]['id']
         self.LiveisMemberOnly = Livedata.get('nicoLive', 'isMemberOnly')
         self.LiveisTimeshiftEnabled = Livedata.get('nicoLive', 'isTimeshiftEnabled')
         self.LiveisUadEnabled = Livedata.get('nicoLive', 'isUadEnabled')
@@ -117,19 +134,19 @@ class nicoLive:
             self.LiveisAutoCommentFilterEnabled = True
         else:
             self.LiveisAutoCommentFilterEnabled = False
-        
-        # コミュニティIDを手動でセットしたいとき用
-        
 
-        # タイトル内の日付文字を置換
-        if self.Livetitle.rfind('{date}') != -1:
-            self.Livetitle = self.Livetitle.replace('{date}', self.date_time.strftime('%Y年%m月%d日'))
-        elif self.Livetitle.rfind('{date2}') != -1:
-            self.Livetitle = self.Livetitle.replace('{date2}', self.date_time.strftime('%Y/%m/%d'))
+        # タイトル内のチャンネル文字を置換
+        if self.Livetitle.rfind('{JKch}') != -1:
+            self.Livetitle = self.Livetitle.replace('{JKch}', jikkyo_id)
+
+        # タイトル内の日付をセット
+        self.Livetitle = self.Livetitle.replace('{date}', self.start_time.strftime('%Y年%m月%d日'))
         
-        # タイトル内の時間文字を置換
-        if self.Livetitle.rfind('{time}') != -1:
-            self.Livetitle = self.Livetitle.replace('{time}', self.date_time.strftime('%H:%M～'))
+        # タイトル内の時間をセット
+        self.Livetitle = self.Livetitle.replace('{time}', self.start_time.strftime('%H:%M～'))+self.end_time.strftime('%H:%M')
+
+        # タグにチャンネル固有のものを追加
+        self.Livetags = self.Livetags + nicoLive.jikkyo_id_table[jikkyo_id]['tag']
 
 
     def setbroadcast(self, create):
@@ -155,7 +172,7 @@ class nicoLive:
             "isTagOwnerLock": self.LiveisTagOwnerLock,
             "isMemberOnly": self.LiveisMemberOnly,
             "communityId": self.LivecommunityId,
-            "reservationBeginTime": self.date_time.strftime('%Y-%m-%d')+"T"+self.date_time.strftime('%H:%M:00')+"+09:00",
+            "reservationBeginTime": self.start_time.strftime('%Y-%m-%d')+"T"+self.start_time.strftime('%H:%M:00')+"+09:00",
             "durationMinutes": self.hours,
             "isTimeshiftEnabled": self.LiveisTimeshiftEnabled,
             "isUadEnabled": self.LiveisUadEnabled,
@@ -165,10 +182,6 @@ class nicoLive:
             "isQuotable": self.LiveisQuotable,
             "isAutoCommentFilterEnabled": self.LiveisAutoCommentFilterEnabled,
         }
-
-        # サブカテゴリがある時は追加する
-        if self.LiveoptionalCategories == ('凸待ち' or '顔出し' or 'クルーズ待ち' or '生ゲームで遊ぶ'):
-            payload["optionalCategories"] = self.LiveoptionalCategories
         
         #print(payload)
         
@@ -184,15 +197,6 @@ class nicoLive:
         else:
             return '指定された'
     
-    # 実況チャンネルを指定されたときのini名を取得
-    @staticmethod
-    def getJikkyoChannelini(jikkyo_id):
-        if jikkyo_id in nicoLive.jikkyo_id_table:
-            return nicoLive.jikkyo_id_table[jikkyo_id]['ini']
-        else:
-            return None
-
-
     # ニコニコにログインする
     def __login(self, force = False):
 
@@ -227,23 +231,6 @@ class nicoLive:
         else:
             return None
     
-    Live_error_table = {
-        'INVALID_PARAMETER': {'message': 'パラメーターエラー。出る場合は ini の間違いを確認し、間違いがない場合は開発者まで報告ください'},
-        'INVALID_TAGS': {'message': '無効なタグ指定があります。'},
-        'OVERLAP_MAINTENANCE': {'message': '番組放送時間にメンテナンス時間が重複しています'},
-        'AUTHENTICATION_FAILED': {'message': 'niconicoセッションが無効です。IDとパスワードを確認してください'},
-        'NO_COMMUNITY_OWNED': {'message': '指定されたコミュニティでの放送権がありません'},
-        'COMMUNITY_NOT_FOUND': {'message': '指定されたコミュニティが存在しません'},
-        'PENALIZED_COMMUNITY': {'message': '放送ペナルティを受けたコミュニティでは放送できません'},
-        'OVERLAP_COMMUNITY': {'message': '同一コミュニティで他に重複した別ユーザの放送の予定があります'},
-        'NOT_PREMIUM_USER': {'message': 'プレミアムユーザではありません'},
-        'PENALIZED_USER': {'message': '配信ペナルティを受けています'},
-        'OVERLAP_PROGRAM_PROVIDER': {'message': '該当時間に別の同ユーザの放送予定があります'},
-        'NO_PERMISSION': {'message': '許可のない操作をしようとした'},
-        'UNDER_MANTENANCE': {'message': 'メンテナンス中です'},
-        'SERVICE_ERROR': {'message': '一時的なサーバ不調によりリクエストに失敗しました(リトライすると直る可能性もありますし、障害の可能性もあります)'},
-    }
-
 # 例外定義
 class ResponseError(Exception):
     pass
