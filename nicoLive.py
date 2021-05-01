@@ -137,7 +137,7 @@ class nicoLive:
 
         # タイトル内のチャンネル文字を置換
         if self.Livetitle.rfind('{JKch}') != -1:
-            self.Livetitle = self.Livetitle.replace('{JKch}', jikkyo_id)
+            self.Livetitle = self.Livetitle.replace('{JKch}', nicoLive.jikkyo_id_table[jikkyo_id]['name'])
 
         # タイトル内の日付をセット
         self.Livetitle = self.Livetitle.replace('{date}', self.start_time.strftime('%Y年%m月%d日'))
