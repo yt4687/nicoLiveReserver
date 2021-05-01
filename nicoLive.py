@@ -157,7 +157,8 @@ class nicoLive:
         headers = {
             'Content-Type': 'application/json',
             'X-niconico-session' : user_session,
-            'Accept' : 'application/json'
+            'Accept' : 'application/json',
+            'user-agent' : 'nicoLiveReserver301'
         }
 
         # タグを投稿できる状態に処理
