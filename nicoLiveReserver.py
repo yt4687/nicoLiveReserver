@@ -27,7 +27,7 @@ def main():
     parser.add_argument('-ch','--jkchannel', help = '予約する実況コミュニティを指定します。')
     parser.add_argument('-ho','--hours', help = '放送する時間（時）、チャンネル以外では最大放送時間が6時間までなので6時間以降は分割されます (ex: 24)')
     parser.add_argument('-m','--minutes', action='store_true', help = '放送する時間（分）配信時間を30分に設定、または30分追加するときに使います')
-    parser.add_argument('-a','--autset', action='store_true', help = 'iniに保存された設定を使って予約します')
+    parser.add_argument('-a','--autset', action='store_true', help = 'iniに指定された項目を使って予約を行います')
     parser.add_argument('-v', '--version', action='version', help = 'バージョン情報を表示する', version='nicoLiveReserver version ' + __version__)
     args = parser.parse_args()
 
