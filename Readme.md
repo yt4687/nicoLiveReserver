@@ -124,23 +124,12 @@ jk101 に配信時間を1時間30分にしたいときはこうなります。
 ./nicoLiveReserver.exe -ch jk101 2021/01/31 04:00 -ho 1 -m 30
 ```
 
-ini を指定する場合（実況チャンネルに存在しないコミュニティを予約する場合はこちらを使います）
-data2.ini というiniファイルを指定して、配信時間を1時間にしたいときはこうなります。
-```
-./nicoLiveReserver.exe 2021/01/31 04:00 -ho 1 -ini data2.ini
-```
-data2.ini というiniファイルを指定して、配信時間を1時間30分にしたいときはこうなります。
-```
-./nicoLiveReserver.exe 2021/01/31 04:00 -ho 1 -m 30 -ini data2.ini
-```
-jk101 data2.ini を使って配信時間を1時間30分にしたいときはこうなります。
-```
-./nicoLiveReserver.exe -ch jk101 2021/01/31 04:00 -ho 1 -m 30 -ini data2.ini
-```
+
 指定可能なチャンネル一覧
 ```
         jk10: テレ玉
-        jk11: tvk'
+        jk11: tvk
+	jk12: チバテレビ
         jk101: NHK BS1
         jk103: NHK BSプレミアム
         jk141: BS日テレ
@@ -152,6 +141,7 @@ jk101 data2.ini を使って配信時間を1時間30分にしたいときはこ�
         jk192: WOWOW LIVE
         jk193: WOWOW CINEMA
         jk222: BS12
+	jk236: BSアニマックス
         jk333: AT-X
 ```
 
