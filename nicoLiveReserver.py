@@ -78,12 +78,13 @@ def main():
         date_time =  dt.datetime.strptime((now.strftime('%Y/%m/%d') + ' ' + time), '%Y/%m/%d %H:%M')
         hours = int(days)*24
         minutes = False
-    
-    def post(set_caststart_time, set_end_time, set_cast_hours):
+
+    def post(set_start_time, set_end_time, set_cast_hours):
 
         # インスタンスを作成
         jkcomment = nicoLive.nicoLive(nicologin_mail, nicologin_password, set_start_time, set_end_time, set_cast_hours, jikkyo_id)
-        print(f"{set_caststart_time.strftime('%Y/%m/%d %H:%M')} に {nicoLive.nicoLive.getJikkyoChannelName(jikkyo_id)} コミュニティの放送予定を作成します")
+        print(f"{set_start_time.strftime('%Y/%m/%d %H:%M')} に {nicoLive.nicoLive.getJikkyoChannelName(jikkyo_id)} コミュニティの放送予定を作成します")
+        print("tt")
         
         try:
             result = jkcomment.setbroadcast('create')
@@ -102,7 +103,7 @@ def main():
             print(f"URL [https://live2.nicovideo.jp/watch/{result['data']['id']}]")
 
             discord_message = ':ok: 生放送予約に成功しました```'
-            discord_message += f"{set_caststart_time.strftime('%Y/%m/%d %H:%M')} {nicoLive.nicoLive.getJikkyoChannelName(jikkyo_id)} コミュニティ"
+            discord_message += f"{set_start_time.strftime('%Y/%m/%d %H:%M')} {nicoLive.nicoLive.getJikkyoChannelName(jikkyo_id)} コミュニティ"
             discord_message += f"\n生放送idは{result['data']['id']}です```"
 
         else:
@@ -112,7 +113,7 @@ def main():
             print('失敗理由：' + e_message)
 
             discord_message = ':ng: 生放送予約に失敗しました```'
-            discord_message += f"{set_caststart_time.strftime('%Y/%m/%d %H:%M')} {nicoLive.nicoLive.getJikkyoChannelName(jikkyo_id)} コミュニティ"
+            discord_message += f"{set_start_time.strftime('%Y/%m/%d %H:%M')} {nicoLive.nicoLive.getJikkyoChannelName(jikkyo_id)} コミュニティ"
             discord_message += f"\nstatus：{result['meta']['status']} [errorCode：{result['meta']['errorCode']}]"
             discord_message += f"\n失敗理由：" + e_message + "```@everyone"
 
@@ -123,6 +124,8 @@ def main():
             payload = {'content': discord_message}
             response = requests.post(discord_url, json.dumps(payload), headers = headers)
             print(response)
+        
+        return result
 
     # 枠取りをするときに使う変数
     set_program_count = 0 # 初期値（この値には6時間分の番組のカウントを入れる）
@@ -146,7 +149,18 @@ def main():
     while finish_count < set_program_count:
         set_cast_hours =  360 # 放送予定時間を6時間にセット
         set_end_time = set_start_time + dt.timedelta(hours = 6) # 次の放送開始時間をセット
-        post(set_start_time, set_end_time, set_cast_hours)
+        result = post(set_start_time, set_end_time, set_cast_hours)
+
+        # 定期メンテナンスの6:00～8:30までがメンテナンスの場合にする処理
+        if (set_start_time.strftime("%H:%M") == "04:00" and result['meta']['status'] == 503):
+            # 4:00~6:00
+            set_end_time2 = dt.datetime.strptime((now.strftime('%Y/%m/%d') + ' ' + '6:00'), '%Y/%m/%d %H:%M')
+            set_cast_hours = 120
+            post(set_start_time, set_end_time2, set_cast_hours)
+            # 8:30~1:00
+            set_start_time2 = dt.datetime.strptime((now.strftime('%Y/%m/%d') + ' ' + '8:30'), '%Y/%m/%d %H:%M')
+            set_cast_hours = 90
+            post(set_start_time2, set_end_time, set_cast_hours)
 
         set_start_time = set_end_time # 次の放送開始時間をセット
         finish_count += 1
