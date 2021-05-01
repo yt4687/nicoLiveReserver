@@ -87,6 +87,11 @@ def main():
         
         try:
             result = jkcomment.setbroadcast('create')
+            # セッションが無効だったときはcookieを削除して再度実行
+            if result['meta']['status'] == 401:
+                os.remove('cookie.dump')
+                result = jkcomment.setbroadcast('create')
+
         except (nicoLive.ResponseError, nicoLive.SessionError) as ex:
             print(f"エラー: {ex.args[0]}")
             print('=' * shutil.get_terminal_size().columns)
