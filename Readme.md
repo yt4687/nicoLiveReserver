@@ -146,7 +146,8 @@ jk101 に配信時間を1時間30分にしたいときはこうなります。
 ```
 
 
-不具合報告は [Issues](https://github.com/yt4687/nicoLiveReserver/issues) までお願いします。
+不具合報告は [Issues](https://github.com/yt4687/nicoLiveReserver/issues) までお願いします。  
+[Discordコミュニティ](https://discord.gg/Vg6dYGJpXC) でも受け付けます。  
 
 ## License
 [MIT License](LICENSE.txt)
