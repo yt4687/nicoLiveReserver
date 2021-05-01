@@ -11,6 +11,7 @@ import sys
 import datetime as dt
 import configparser
 import time as timeim
+import requests
 
 import nicoLive
 
@@ -60,9 +61,12 @@ def main():
     config = configparser.ConfigParser()
     config.read(config_ini, encoding='UTF-8')
 
-    #ニコニコセッション関係
+    # ニコニコセッション関係
     nicologin_mail = config.get('Default', 'nicologin_mail')
     nicologin_password = config.get('Default', 'nicologin_password')
+
+    # Discordへの通知用URL
+    discord_url = config.get('Notification', 'discord_url')
 
     # autosettingが適用された
     if args.autset == True:
@@ -91,11 +95,29 @@ def main():
         if result['meta']['status'] == 201:
             print(f"生放送の予約に成功しました。生放送idは{result['data']['id']}です")
             print(f"URL [https://live2.nicovideo.jp/watch/{result['data']['id']}]")
+
+            discord_message = ':ok: 生放送予約に成功しました```'
+            discord_message += f"{set_caststart_time.strftime('%Y/%m/%d %H:%M')} {nicoLive.nicoLive.getJikkyoChannelName(jikkyo_id)} コミュニティ"
+            discord_message += f"\n生放送idは{result['data']['id']}です```"
+
         else:
             error_code = result['meta']['errorCode']
             e_message = jkcomment.getLiveerrormsg(error_code)
             print(f"生放送の予約に失敗しました。status：{result['meta']['status']} [errorCode：{result['meta']['errorCode']}]")
             print('失敗理由：' + e_message)
+
+            discord_message = ':ng: 生放送予約に失敗しました```'
+            discord_message += f"{set_caststart_time.strftime('%Y/%m/%d %H:%M')} {nicoLive.nicoLive.getJikkyoChannelName(jikkyo_id)} コミュニティ"
+            discord_message += f"\nstatus：{result['meta']['status']} [errorCode：{result['meta']['errorCode']}]"
+            discord_message += f"\n失敗理由：" + e_message + "```@everyone"
+
+        # Discordへの通知
+        if discord_url != 'None':
+            headers = {'Content-Type': 'application/json'}
+            # メッセージ
+            payload = {'content': discord_message}
+            response = requests.post(discord_url, json.dumps(payload), headers = headers)
+            print(response)
 
     # 枠取りをするときに使う変数
     set_program_count = 0 # 初期値（この値には6時間分の番組のカウントを入れる）
