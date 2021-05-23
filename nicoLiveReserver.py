@@ -152,12 +152,12 @@ def main():
         result = post(set_start_time, set_end_time, set_cast_hours)
 
         # 定期メンテナンスの6:00～8:30までがメンテナンスの場合にする処理
-        if (set_start_time.strftime("%H:%M") == "04:00" and result['meta']['status'] == 503):
+        if (set_start_time.strftime("%H:%M") == "04:00" and result['meta']['status'] == 400):
             # 4:00~6:00
             set_end_time2 = dt.datetime.strptime((now.strftime('%Y/%m/%d') + ' ' + '6:00'), '%Y/%m/%d %H:%M')
             set_cast_hours = 120
             post(set_start_time, set_end_time2, set_cast_hours)
-            # 8:30~1:00
+            # 8:30~10:00
             set_start_time2 = dt.datetime.strptime((now.strftime('%Y/%m/%d') + ' ' + '8:30'), '%Y/%m/%d %H:%M')
             set_cast_hours = 90
             post(set_start_time2, set_end_time, set_cast_hours)
