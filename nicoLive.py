@@ -24,7 +24,7 @@ class nicoLive:
         'jk10': {'type': 'community', 'id': 'co5253063', 'name': 'テレ玉', 'tag': ',{"label":"テレ玉","isLocked":true}'},
         'jk11': {'type': 'community', 'id': 'co5215296', 'name': 'tvk', 'tag': ',{"label":"ｔｖｋ","isLocked":true},{"label":"TVK","isLocked":true}'},
         'jk12': {'type': 'community', 'id': 'co5359761', 'name': '千葉テレビ', 'tag': ',{"label":"千葉テレビ","isLocked":true},{"label":"チバテレビ","isLocked":true}'},
-        'jk101': {'type': 'community', 'id': 'co5214081', 'name': 'NHK BS1', 'tag': ',{"label":"NHK_BS1","isLocked":true}'},
+        #'jk101': {'type': 'community', 'id': 'co5214081', 'name': 'NHK BS1', 'tag': ',{"label":"NHK_BS1","isLocked":true}'},
         'jk103': {'type': 'community', 'id': 'co5175227', 'name': 'NHK BSプレミアム', 'tag':',{"label":"NHK_BSP","isLocked":true},{"label":"NHK_BSプレミアム","isLocked":true}' },
         'jk141': {'type': 'community', 'id': 'co5175341', 'name': 'BS日テレ', 'tag': ',{"label":"BS日テレ","isLocked":true}'},
         'jk151': {'type': 'community', 'id': 'co5175345', 'name': 'BS朝日', 'tag': ',{"label":"BS朝日","isLocked":true}'},
