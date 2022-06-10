@@ -84,7 +84,6 @@ def main():
         # インスタンスを作成
         jkcomment = nicoLive.nicoLive(nicologin_mail, nicologin_password, set_start_time, set_end_time, set_cast_hours, jikkyo_id)
         print(f"{set_start_time.strftime('%Y/%m/%d %H:%M')} に {nicoLive.nicoLive.getJikkyoChannelName(jikkyo_id)} コミュニティの放送予定を作成します")
-        print("tt")
         
         try:
             result = jkcomment.setbroadcast('create')
@@ -104,7 +103,9 @@ def main():
 
             discord_message = ':ok: 生放送予約に成功しました```'
             discord_message += f"{set_start_time.strftime('%Y/%m/%d %H:%M')} {nicoLive.nicoLive.getJikkyoChannelName(jikkyo_id)} コミュニティ"
-            discord_message += f"\n生放送idは{result['data']['id']}です```"
+            discord_message += f"\n生放送idは{result['data']['id']}です"
+            discord_message += f"\n放送時間：{str(set_cast_hours)}分```"
+
 
         else:
             error_code = result['meta']['errorCode']
@@ -115,6 +116,7 @@ def main():
             discord_message = ':ng: 生放送予約に失敗しました```'
             discord_message += f"{set_start_time.strftime('%Y/%m/%d %H:%M')} {nicoLive.nicoLive.getJikkyoChannelName(jikkyo_id)} コミュニティ"
             discord_message += f"\nstatus：{result['meta']['status']} [errorCode：{result['meta']['errorCode']}]"
+            discord_message += f"\n放送時間：{str(set_cast_hours)}分"
             discord_message += f"\n失敗理由：" + e_message + "```@everyone"
 
         # Discordへの通知
@@ -152,12 +154,12 @@ def main():
         result = post(set_start_time, set_end_time, set_cast_hours)
 
         # 定期メンテナンスの6:00～8:30までがメンテナンスの場合にする処理
-        if (set_start_time.strftime("%H:%M") == "04:00" and result['meta']['status'] == 400):
+        if (set_start_time.strftime("%H:%M") == "04:00" and (result['meta']['status'] == 503 or result['meta']['status'] == 400)):
             # 4:00~6:00
             set_end_time2 = dt.datetime.strptime((now.strftime('%Y/%m/%d') + ' ' + '6:00'), '%Y/%m/%d %H:%M')
             set_cast_hours = 120
             post(set_start_time, set_end_time2, set_cast_hours)
-            # 8:30~10:00
+            # 8:30~1:00
             set_start_time2 = dt.datetime.strptime((now.strftime('%Y/%m/%d') + ' ' + '8:30'), '%Y/%m/%d %H:%M')
             set_cast_hours = 90
             post(set_start_time2, set_end_time, set_cast_hours)
