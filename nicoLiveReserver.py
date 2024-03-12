@@ -133,8 +133,8 @@ def main():
     set_program_count = 0 # 初期値（この値には6時間分の番組のカウントを入れる）
     set_program_count_hasu = 0 # 初期値（6時間までの番組を入れる）
 
-    # チャンネル以外では一度に取れるのが6時間までなので、6時間ごとに分割
-    if int(hours) > 5:
+    # チャンネル以外では一度に取れるのが12時間までなので、6時間ごとに分割
+    if int(hours) > 11:
        answer = divmod(int(hours), 6)
        set_program_count = answer[0]
        set_program_count_hasu = answer[1] *60 # 分単位に変換
@@ -149,8 +149,8 @@ def main():
     set_start_time = date_time
 
     while finish_count < set_program_count:
-        set_cast_hours =  360 # 放送予定時間を6時間にセット
-        set_end_time = set_start_time + dt.timedelta(hours = 6) # 次の放送開始時間をセット
+        set_cast_hours =  720 # 放送予定時間を12時間にセット
+        set_end_time = set_start_time + dt.timedelta(hours = 12) # 次の放送開始時間をセット
         result = post(set_start_time, set_end_time, set_cast_hours)
 
         # 定期メンテナンスの6:00～8:30までがメンテナンスの場合にする処理
@@ -161,7 +161,7 @@ def main():
             post(set_start_time, set_end_time2, set_cast_hours)
             # 8:30~1:00
             set_start_time2 = dt.datetime.strptime((now.strftime('%Y/%m/%d') + ' ' + '8:30'), '%Y/%m/%d %H:%M')
-            set_cast_hours = 90
+            set_cast_hours = 450
             post(set_start_time2, set_end_time, set_cast_hours)
 
         set_start_time = set_end_time # 次の放送開始時間をセット
