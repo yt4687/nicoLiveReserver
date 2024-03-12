@@ -130,12 +130,12 @@ def main():
         return result
 
     # 枠取りをするときに使う変数
-    set_program_count = 0 # 初期値（この値には6時間分の番組のカウントを入れる）
-    set_program_count_hasu = 0 # 初期値（6時間までの番組を入れる）
+    set_program_count = 0 # 初期値（この値には12時間分の番組のカウントを入れる）
+    set_program_count_hasu = 0 # 初期値（12時間までの番組を入れる）
 
-    # チャンネル以外では一度に取れるのが12時間までなので、6時間ごとに分割
+    # チャンネル以外では一度に取れるのが12時間までなので、12時間ごとに分割
     if int(hours) > 11:
-       answer = divmod(int(hours), 6)
+       answer = divmod(int(hours), 12)
        set_program_count = answer[0]
        set_program_count_hasu = answer[1] *60 # 分単位に変換
        if minutes == True: # 30分が指定されていた場合
